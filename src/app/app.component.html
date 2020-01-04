@@ -5,20 +5,33 @@
   </head>
   <body>
       <div class="page-container"> 
+          
           <div class="title">
             <div class = "title-text">Contacts List</div>
-            <div class= "title-search"><input type="text" placeholder="Search" class="search"><div class="search_button" (click)="onFreeSearchClick($event)"></div></div>
+            <div class= "title-search">
+                <input type="text" placeholder="Search" class="search">
+                <div class="search_button" (click)="onFreeSearchClick($event)"></div>
+            </div>
           </div>
+
           <table>
             <thead>
-               <th *ngFor = "let item of fields" ><div><div>{{fieldValue(item)}}</div><div *ngIf= "fieldValue(item) != '#'" class = "sort both" (click)="onSortClick($event,fieldKey(item))"></div></div></th>
+              <th *ngFor = "let item of fields" >
+                <div>
+                   <div>{{fieldValue(item)}}</div>
+                   <div *ngIf= "fieldValue(item) != '#'" class = "sort both" (click)="onSortClick($event,fieldKey(item))"></div>
+                </div>
+              </th>
             </thead>
             <tbody>
             <tr *ngFor="let user of users; let i = index" >
-              <td *ngFor = "let item of fields" ><div (value) = "fieldKey(item)" >{{user[fieldKey(item)]}}</div></td>
+              <td *ngFor = "let item of fields" >
+                <div>{{userValue(user,fieldKey(item))}}</div>
+              </td>
             </tr>
           </tbody>       
           </table>
+          
     </div >
   </body>
 </html>

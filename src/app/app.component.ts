@@ -7,6 +7,7 @@ import { FetchdataService } from './fetchdata-service';
   styleUrls: ['./app.component.css'],
   providers : [FetchdataService]
 })
+
 export class AppComponent {
   title = 'zoominfo';
   url = "http://localhost:5000"
@@ -18,6 +19,7 @@ export class AppComponent {
               {"location":"Location"},
               {"hq_phone":"HQ Phone"},      
               {"email":"Email"},      
+              {"update":"Update"},      
             ]
 
   sortBy = ""
@@ -38,6 +40,23 @@ export class AppComponent {
 
   fieldValue = (item : Object)=>{
      return item[Object.keys(item)[0]]
+  }
+  
+  userValue = (user : Object , key : string) => {
+      var value = user[key]
+      
+      if (key == "update"){
+        var pad = (num : any) => {return ('00'+num).slice(-2) } , date = new Date(value);
+        value = pad(date.getUTCDate())+'/'+pad(date.getUTCMonth() + 1)+'/'+date.getUTCFullYear()
+      }
+
+      return value;
+  }
+
+  profileRequest = ()=>{
+    this.srv.getData(this.url+"/profiles?value="+this.sortValue+"&by="+this.sortBy+"&search="+this.searchText).subscribe((data) => {
+      this.users = data
+    })
   }
 
   onFreeSearchClick = (event : any)=>{
@@ -72,10 +91,6 @@ export class AppComponent {
     this.profileRequest()
   }
 
-  profileRequest = ()=>{
-    this.srv.getData(this.url+"/profiles?value="+this.sortValue+"&by="+this.sortBy+"&search="+this.searchText).subscribe((data) => {
-      this.users = data
-    })
-  }
+ 
 
 }
